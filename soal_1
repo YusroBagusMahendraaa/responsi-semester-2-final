@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAXQUEUE 4
+
+typedef struct {
+    int count;
+    int front;
+    int rear;
+    int item[MAXQUEUE];
+} QUEUE;
+
+QUEUE antrean;
+
+void inisialisasi(QUEUE *Q) {
+    Q->count = 0;
+    Q->front = 0;
+    Q->rear = 0;
+}
+
+int isEmpty(QUEUE *Q) {
+    return (Q->count == 0);
+}
+
+int isFull(QUEUE *Q) {
+    return (Q->count == MAXQUEUE);
+}
+
+void insert(QUEUE *Q, int data) {
+    if (isFull(Q)) {
+        printf("Queue penuh. Tidak dapat memasukan %d\n", data);
+    } else {
+        Q->item[Q->rear] = data;
+        Q->rear = (Q->rear + 1) % MAXQUEUE;
+        Q->count++;
+        printf("Memasukan %d\n", data);
+    }
+}
+
+void hapus(QUEUE *Q) {
+    if (isEmpty(Q)) {
+        printf("Queue penuh. Tidak dapat menghapus\n");
+    } else {
+        printf("Menghapus %d\n", Q->item[Q->front]);
+        Q->front = (Q->front + 1) % MAXQUEUE;
+        Q->count--;
+    }
+}
+
+void printQueue(QUEUE *Q) {
+    if (isEmpty(Q)) {
+        printf("Queue\n");
+    } else {
+        printf("Queue conten: ");
+        for (int i = 0; i < Q->count; i++) {
+            int index = (Q->front + i) % MAXQUEUE;
+            printf("%d ", Q->item[index]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    inisialisasi(&antrean);
+    
+    insert(&antrean, 108);
+    printQueue(&antrean);
+    
+    insert(&antrean, 109);
+    printQueue(&antrean);
+    
+    insert(&antrean, 110);
+    printQueue(&antrean);
+    
+    insert(&antrean, 111);
+    printQueue(&antrean);
+    
+    hapus(&antrean);
+    printQueue(&antrean);
+    
+    insert(&antrean, 112);
+    printQueue(&antrean);
+    
+    return 0;
+}
